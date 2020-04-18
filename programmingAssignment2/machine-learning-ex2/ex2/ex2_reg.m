@@ -19,6 +19,8 @@
 
 %% Initialization
 clear ; close all; clc
+fprintf('-------------------------------------------------');
+fprintf('-------------------------------------------------');
 
 %% Load Data
 %  The first two columns contains the X values and the third column
@@ -26,11 +28,14 @@ clear ; close all; clc
 
 data = load('ex2data2.txt');
 X = data(:, [1, 2]); y = data(:, 3);
+neg=find(y==0);
+pos = find(y==1);
 
-plotData(X, y);
+hold on;
+plot(X(pos,1), X(pos,2), "+");
+plot(X(neg,1), X(neg,2) , "o");
 
 % Put some labels
-hold on;
 
 % Labels and Legend
 xlabel('Microchip Test 1')
@@ -38,7 +43,6 @@ ylabel('Microchip Test 2')
 
 % Specified in plot order
 legend('y = 1', 'y = 0')
-hold off;
 
 
 %% =========== Part 1: Regularized Logistic Regression ============
@@ -118,7 +122,7 @@ options = optimset('GradObj', 'on', 'MaxIter', 400);
 
 % Plot Boundary
 plotDecisionBoundary(theta, X, y);
-hold on;
+
 title(sprintf('lambda = %g', lambda))
 
 % Labels and Legend
