@@ -42,9 +42,13 @@ c = 1 - y;
 d = log(1-sigmoid(theta'*X'));
 
 J = (1/m)*sum(a'.*b - c'.*d);
-J_addOn = (lambda/(2*m))*
+J_addOn = (lambda/(2*m))*sum(theta(2:size(theta)(1),:).^2);
+J = J + J_addOn;
 
 grad = (1/m)* (sigmoid(theta'*X')-y') * X;
+grad_addOn = (lambda/m)*theta(2:size(theta)(1),:);
+grad_addOn = [0; grad_addOn];
+grad += grad_addOn';
 
 
 
