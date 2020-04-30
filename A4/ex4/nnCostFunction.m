@@ -61,32 +61,35 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
-J= (1/m);
-act1= [ones(m:1);X];%5000x401
-act2 = [ones(1:m) (sigmoid(Theta1*X'));%26x5000
-act3 = sigmoid(Theta2*act2); %10x5000-+
+act1= [ones(m,1) X];%5000x401
 
-y_bin = [[1:num_labels-1] 0];
+act2 = [ones(1,m) ;sigmoid(Theta1*act1')];%26x5000
+act3 = sigmoid(Theta2*act2); %10x5000
+
+y_bin = [1:num_labels];
 y_bin = repmat(y_bin,m,1);
+
 for i = 1:m
-    for j =  1:num_labels
+    for j = 1:num_labels
         y_bin(i,j) = y_bin(i,j)==y(i);
-    end
-end
+    endfor
+endfor
+y
 %y_bin m x num_labels
 
-a=
-b=
-c=
-d=
-(a*b)-(c*d) %cost for each hypotheses for each class k in a k dimensional vector = K
-%K in a m dimensional vector
+a= -y_bin;
+b=log(act3);
+c= 1-y_bin;
+d= log(1-act3);
+
+temp = a.*b'-c.*d'; %m x k
+temp2 = zeros(m:1);
+for i = 1:m
+    temp2(i) = sum(temp(i,:));
+endfor
 
 
-
-
-
-
+J = (1/m)*sum(temp2);
 
 
 
