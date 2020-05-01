@@ -74,7 +74,6 @@ for i = 1:m
         y_bin(i,j) = y_bin(i,j)==y(i);
     endfor
 endfor
-y
 %y_bin m x num_labels
 
 a= -y_bin;
@@ -90,12 +89,19 @@ endfor
 
 
 J = (1/m)*sum(temp2);
+reg_theta1 = Theta1(:,(2:size(Theta1,2)));
+reg_theta1_sum=0;
+for j = 1:size(reg_theta1,1);
+    reg_theta1_sum += sum(reg_theta1(j,:).^2);
+end;
 
-
-
-
-
-
+reg_theta2 = Theta2(:,(2:size(Theta2,2)));
+reg_theta2_sum=0;
+for j = 1:size(reg_theta2,1);
+    reg_theta1_sum += sum(reg_theta2(j,:).^2);
+end;
+J_reg = (lambda/(2*m))*(reg_theta1_sum+reg_theta2_sum);
+J += J_reg;
 
 
 
