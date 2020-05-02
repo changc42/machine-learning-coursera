@@ -108,6 +108,32 @@ J += J_reg;
 
 
 % -------------------------------------------------------------
+Delta1 = zeros(hidden_layer_size, (input_layer_size + 1));
+Delta2 = zeros(num_labels, (hidden_layer_size + 1));
+for t = 1:m
+    act1 = [1 X(t,:)]; %1 x m+1
+    act2 = [1 ;sigmoid(Theta1*act1')]; %hiddenlayer size +1 x 1
+    act3 = sigmoid(Theta2*act2); % outputs x 1
+
+    delta3 = act3 - y_bin(t,:)';
+
+    Delta2 = Delta2 + delta3*act2';
+
+    
+    
+    
+    
+    delta2 = (Theta2(:,(2:end)))'*delta3.*sigmoidGradient(Theta1*act1');
+
+
+    Delta1 = Delta1 + delta2*act1;
+end
+
+D1 = (1/m).*Delta1;
+D2 = (1/m).*Delta2;
+
+Theta1_grad =D1+[zeros(hidden_layer_size,1) (lambda/m)*Theta1(:,(2:end))];
+Theta2_grad =D2+[zeros(num_labels,1) (lambda/m)*Theta2(:,(2:end))];
 
 % =========================================================================
 
