@@ -20,14 +20,21 @@ grad = zeros(size(theta));
 %
 
 
+%step 1: convert X to hypothesis prediction
+
+J = (1/(2*m))*sum((X*theta - y).^2)+(lambda/(2*m))*sum(theta(2:size(theta,1)).^2);
 
 
 
 
+gradForZero = (1/m)*sum((X*theta - y).*X(:,1));
+gradForRest = [];
+for i = 2:size(X,2)
+    gradForRest = [gradForRest; (1/m)*sum((X*theta - y).*X(:,i)) + (lambda/m)*theta(i)];
+end
 
 
-
-
+grad = [gradForZero; gradForRest];
 
 
 % =========================================================================
